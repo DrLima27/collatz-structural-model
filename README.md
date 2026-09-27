@@ -1,42 +1,55 @@
-# collatz-structural-model
-Modelo de Dinámica Estructural y Propagación de Acarreos por Renato Lima # Modelo de Dinámica Estructural y Propagación de Acarreos en la Conjetura de Collatz
+# Modelo exploratorio de dinámica binaria en la conjetura de Collatz
 
-**Autor:** Renato Lima Lepretti  
-**Marco Teórico:** Dinámica $2$-ádica, Espondilolistesis de Bits y Pozos de Atracción de Masa  
+**Autor:** Renato Lima Lepretti
 
----
+Este repositorio contiene un programa para visualizar y explorar trayectorias de la conjetura de Collatz mediante cantidades derivadas de la representación binaria de los enteros. Es un análisis experimental: no presenta una demostración de la conjetura.
 
-## Resumen Ejecutivo
+## Descripción
 
-Este repositorio presenta un modelo analítico y geométrico desarrollado por **Renato Lima Lepretti** para estudiar la dinámica de la conjetura de Collatz ($3n+1$) mediante la transformación de masa en representación binaria y la propagación de acarreos (*carries*).
+Para un entero positivo \(n\), definimos la medida logarítmica
 
-El modelo reinterpreta la operación de Collatz a través de una analogía de mecánica estructural (fricción entre bloques y espondilolistesis binaria), demostrando cómo el crecimiento de la masa $M(n) = \log_2(n)$ fuerza al sistema hacia un pozo de atracción gravitacional.
+\[
+M(n)=\log_2(n),
+\]
 
----
+que refleja la magnitud de \(n\) en escala de bits. En los estados impares, la transformación de Collatz puede escribirse como
 
-## Principios del Modelo
+\[
+3n+1=2n+n+1.
+\]
 
-### 1. Métrica de Masa ($M(n)$)
-Para cualquier entero positivo $n$, la masa o complejidad del estado se define en el espacio de información como:
-$$M(n) = \log_2(n)$$
+Esta forma permite observar la suma binaria y los acarreos que produce. El programa también calcula la valoración 2-ádica \(v_2(3n+1)\), es decir, el exponente de la mayor potencia de 2 que divide a \(3n+1\).
 
-### 2. Mecanismo de Acarreo y Espondilolistesis Binaria
-La transformación sobre impares $3n + 1$ equivale a $(2n + n) + 1$, representada como la superposición de un vector de bits desplazado sobre sí mismo. 
+Como descriptor exploratorio, el script cuenta los pares de bits consecutivos `11` en la representación binaria de cada estado y calcula su frecuencia respecto de la longitud binaria. Esta frecuencia se grafica junto con \(M(n)\) para facilitar la inspección de una órbita.
 
-El modelo de **Renato Lima Lepretti** establece que la estabilidad de la trayectoria depende del grado de contacto entre bloques de bits adyacentes (`11`):
-* **Umbral Crítico ($\rho_c = 33.3\%$):** Basado en la periodicidad $2$-ádica límite de $1/3 = 0.010101\dots_2$.
-* **Mecanismo de Colapso:** Cuando la densidad de contacto supera el $33.3\%$, se generan acarreos en cadena que incrementan la valoración $2$-ádica $v_2(3n+1) \ge 2$, forzando una contracción neta de la masa ($\Delta M < 0$).
+## Caso de estudio: \(n=27\)
 
----
+Con la regla estándar de Collatz, la trayectoria que comienza en 27 llega a 1 tras 111 pasos y alcanza el máximo 9232. El script reproduce y grafica esta órbita particular.
 
-## Caso de Estudio: $n = 27$
+Este ejemplo ilustra el comportamiento de una trayectoria, pero no permite concluir por sí solo que todas las trayectorias convergen.
 
-El script adjunto `collatz_structural_analysis.py` analiza la trayectoria del número $27$, el cual requiere exactamente **111 pasos** para alcanzar el atractor $1$, alcanzando un pico de masa de $M(9232) \approx 13.17$ bits antes de desplomarse por el pozo de atracción.
+## Alcance y limitaciones
 
----
+La frecuencia de pares `11` se incluye como una cantidad que puede estudiarse y compararse entre trayectorias. En esta versión no se demuestra que exista un umbral universal para esa frecuencia, ni que dicho valor determine \(v_2(3n+1)\) o garantice una disminución de \(M(n)\).
 
-## Uso del Código
+De hecho, para \(n=3\), la representación binaria es `11`, por lo que la frecuencia de pares `11` es \(1/2\), mayor que \(1/3\). Sin embargo, \(3n+1=10\) y \(v_2(10)=1\). Este caso muestra que la frecuencia, tal como está definida aquí, no implica por sí sola que \(v_2(3n+1)\ge 2\).
+
+Cualquier relación general entre patrones binarios, acarreos, contracción de la medida y convergencia debe formularse con definiciones y condiciones precisas, y demostrarse por separado. La conjetura de Collatz continúa siendo un problema abierto.
+
+## Requisitos y uso
+
+El script requiere Python y Matplotlib. Desde la carpeta del repositorio, ejecútalo con:
 
 ```bash
 python collatz_structural_analysis.py
+```
+
+El programa genera una gráfica para el caso \(n=27\) y la guarda como `collatz_renato_lima_27.png`.
+
+## Próximos pasos de investigación
+
+- Comparar la frecuencia de pares `11` y los valores de \(v_2(3n+1)\) en un conjunto amplio de estados impares.
+- Especificar si la medida de frecuencia debe calcularse sobre todos los estados o solo sobre los impares.
+- Formular y probar (o refutar) afirmaciones cuantitativas que relacionen los descriptores binarios con la variación de \(M(n)\).
+- Separar claramente los resultados experimentales de las proposiciones demostradas.
 
